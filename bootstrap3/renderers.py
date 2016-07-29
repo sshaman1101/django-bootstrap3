@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
 from django.forms import (
     TextInput, DateInput, FileInput, CheckboxInput, MultiWidget,
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
@@ -280,10 +279,8 @@ class FieldRenderer(BaseRenderer):
         if widget is None:
             widget = self.widget
         classes = widget.attrs.get('class', '')
-        if isinstance(widget, ReadOnlyPasswordHashWidget):
-            # Render this is a static control
-            classes = add_css_class(classes, 'form-control-static', prepend=True)
-        elif not isinstance(widget, self.WIDGETS_NO_FORM_CONTROL):
+
+        if not isinstance(widget, self.WIDGETS_NO_FORM_CONTROL):
             classes = add_css_class(classes, 'form-control', prepend=True)
             # For these widget types, add the size class here
             classes = add_css_class(classes, self.get_size_class())
